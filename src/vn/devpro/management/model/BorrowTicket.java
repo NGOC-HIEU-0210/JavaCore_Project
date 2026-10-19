@@ -56,7 +56,13 @@ public class BorrowTicket extends BaseEntity {
     }
 
     public boolean removeBook(Book book) {
-        return books.removeIf(b -> b.getId() == book.getId());
+        for (Book x : books) {
+            if (x.getId() == book.getId()) {
+                books.remove(x);
+                return true;
+            }
+        }
+        return false;
     }
 
     public void markReturned(LocalDate date) {
