@@ -4,7 +4,8 @@ import vn.devpro.management.exception.BusinessException;
 
 
 final class Validation {
-    private Validation() {}
+    private Validation() {
+    }
 
     static String requireText(String value, String label) {
         if (value == null || value.isBlank()) {

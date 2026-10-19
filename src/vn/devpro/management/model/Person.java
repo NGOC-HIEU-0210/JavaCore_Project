@@ -6,9 +6,14 @@ import java.util.Comparator;
 public abstract class Person extends BaseEntity {
 
 
-    public static final Comparator<Person> BY_NAME = Comparator
-            .comparing(Person::getShortName, String.CASE_INSENSITIVE_ORDER)
-            .thenComparing(Person::getFullName, String.CASE_INSENSITIVE_ORDER);
+    public static final Comparator<Person> BY_NAME = (p1, p2) -> {
+        int result = p1.getShortName().compareToIgnoreCase(p2.getShortName());
+
+        if (result != 0) {
+            return result;
+        }
+        return p1.getFullName().compareToIgnoreCase(p2.getFullName());
+    };
 
     private String familyName;
     private String givenName;

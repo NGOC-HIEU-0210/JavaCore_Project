@@ -35,14 +35,25 @@ public class InMemoryRepository<T extends BaseEntity> implements Repository<T> {
 
     @Override
     public Optional<T> findById(int id) {
-        return items.stream().filter(e -> e.getId() == id).findFirst();
+        for (T x : items) {
+            if (x.getId() == id) {
+                return Optional.of(x);
+            }
+        }
+        return Optional.empty();
     }
 
     @Override
     public Optional<T> findByCode(String code) {
         if (code == null) return Optional.empty();
         String wanted = code.trim();
-        return items.stream().filter(e -> e.getCode().equalsIgnoreCase(wanted)).findFirst();
+
+        for (T x : items) {
+            if (x.getCode() != null && x.getCode().equalsIgnoreCase(wanted)) {
+                return Optional.of(x);
+            }
+        }
+        return Optional.empty();
     }
 
     @Override
@@ -52,6 +63,12 @@ public class InMemoryRepository<T extends BaseEntity> implements Repository<T> {
 
     @Override
     public boolean delete(T entity) {
-        return items.removeIf(e -> e.getId() == entity.getId());
+        for(T x : items){
+            if(x.getId() == entity.getId()){
+                items.remove(x);
+                return true;
+            }
+        }
+        return false;
     }
 }
